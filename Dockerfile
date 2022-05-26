@@ -8,7 +8,7 @@ COPY . .
 RUN apt-get update -y
 
 # Install Container Dependencies
-RUN apt-get install unzip curl gpg lsb-release -y
+RUN apt-get install unzip curl gpg lsb-release python3-dev default-libmysqlclient-dev build-essential -y
 
 # Install Redis
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
@@ -28,6 +28,8 @@ RUN rm saved_model.zip
 
 # Prepare python runtime
 RUN pip install -r requirements.txt
+
+RUN apt-get autoremove -y
 
 # Preprare network
 ENV HOST 0.0.0.0
