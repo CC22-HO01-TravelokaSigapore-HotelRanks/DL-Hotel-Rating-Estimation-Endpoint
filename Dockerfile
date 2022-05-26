@@ -34,4 +34,5 @@ RUN apt-get autoremove -y
 ENV HOST 0.0.0.0
 EXPOSE 8001
 
+RUN chmod +x ./script_wraper.sh
 CMD ./script_wraper.sh
