@@ -14,7 +14,6 @@ RUN apt-get install unzip curl gpg lsb-release python3-dev default-libmysqlclien
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
 # RUN apt-get update -y
 RUN apt-get install redis -y
-RUN redis-server --port 6379 --daemonize yes
 ENV REDIS_HOST=127.0.0.1
 ENV REDIS_PORT=6379
 
@@ -35,4 +34,4 @@ RUN apt-get autoremove -y
 ENV HOST 0.0.0.0
 EXPOSE 8001
 
-CMD ["python", "main.py"]
+CMD ./script_wraper.sh

@@ -17,6 +17,7 @@ print("INFO: Connecting to Redis")
 from modules.redis import redis
 if not redis.ping():
     print("ERROR: Cannot connect to REDIS")
+    exit(1)
 print("INFO: Redis connected ")
 
 # Scheduling for Database Caching
