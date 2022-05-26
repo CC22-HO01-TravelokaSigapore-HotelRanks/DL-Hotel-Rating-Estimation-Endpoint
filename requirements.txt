@@ -1,8 +1,6 @@
 tensorflow
 pandas
 numpy
-SQLAlchemy
-mysqlclient
 fastapi
 uvicorn[standard]
 python-dotenv
@@ -11,3 +9,5 @@ fastapi-redis-cache
 gdown
 haversine
 APScheduler
+SQLAlchemy
+mysqlclient
