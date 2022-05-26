@@ -3,41 +3,23 @@ print("INFO: Loading dotenv if available")
 from dotenv import load_dotenv
 load_dotenv()
 
-# For Database Caching
+# Init Database
 print("INFO: Testing Database")
 from modules.database import db
 
-# For API
+# Init Redis
+print("INFO: Connecting to redis")
+from modules.redis import create_key, redis
+if not redis.ping():
+    print("ERROR: Cannot connect to REDIS")
+print("INFO: Redis connected ")
+
+# Init API
 import uvicorn
-from fastapi import FastAPI, Request, Response
-# Instantiate API
+from fastapi import FastAPI
 api = FastAPI()
 
-# Init Redis
-import os
-from fastapi_redis_cache import FastApiRedisCache, cache
-@api.on_event("startup")
-def startup():
-    host = os.getenv("REDIS_HOST")
-    port = os.getenv("REDIS_PORT")
-    con_str = os.getenv("REDIS_CON_STRING")
-    
-    final_redis_str = "redis://"
-    if con_str is not None:
-        final_redis_str += con_str
-    else:
-        final_redis_str += f"{host}:{port}"
-    
-    print("INFO: Init Redis")
-    redis_cache = FastApiRedisCache()
-    redis_cache.init(
-        host_url=os.environ.get("REDIS_URL", final_redis_str),
-        prefix="myapi-cache",
-        response_header="X-MyAPI-Cache",
-        ignore_arg_types=[Request, Response]
-    )
-    
-# Init API
+# Include API
 from modules.api import api_router
 api.include_router(api_router)
 
