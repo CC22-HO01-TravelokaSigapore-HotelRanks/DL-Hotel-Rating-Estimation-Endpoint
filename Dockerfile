@@ -8,12 +8,13 @@ COPY . .
 RUN apt-get update -y
 
 # Install Container Dependencies
-RUN apt-get install unzip curl gpg tee lsb-core -y
+RUN apt-get install unzip curl gpg lsb-core -y
 
 # Install Redis
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
 RUN apt-get update -y
 RUN apt-get install redis -y
+RUN redis-server --port 6379 --daemonize yes
 ENV REDIS_HOST=127.0.0.1
 ENV REDIS_PORT=6379
 
