@@ -9,8 +9,7 @@ import tensorflow as tf
 import traceback
 
 # Redis thingy
-from redis.commands.json.path import Path
-from modules.redis import create_key, dict_to_list, list_to_dict, redis
+from modules.redis import *
 
 api_router = APIRouter()
 
@@ -32,10 +31,10 @@ async def for_you(request:Request, response:Response):
         key = create_key(user_id)
         
         # Search for a key in redis, if not found or expire continue
-        redis_json = redis.json().get(key)
-        if redis_json is not None:
+        byte_json = redis.get(key)
+        if byte_json is not None:
             print(f"INFO: '{key}' cached in redis")
-            final_list = dict_to_list(redis_json)
+            final_list = string_to_list(byte_json.decode())
             return final_list
         print(f"INFO: '{key}' not cached in redis")
         
@@ -72,8 +71,7 @@ async def for_you(request:Request, response:Response):
         
         # Save to redis
         print(f"INFO: '{key}' saved in redis")
-        redis.json().set(key, Path.root_path(),list_to_dict(final_recs))
-        redis.expire(key, 60) # Save for 60 seconds
+        redis.set(key,list_to_string(final_recs), ex=60)
         
         return final_recs
     except:

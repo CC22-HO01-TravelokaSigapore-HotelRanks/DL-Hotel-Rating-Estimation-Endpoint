@@ -1,14 +1,15 @@
 import redis as r
 import os
+from ast import literal_eval
 
 def create_key(user_id):
     return f"user-id-{user_id}"
 
-def list_to_dict(list):
-    return {"list" : list}
+def list_to_string(list):
+    return str(list)
 
-def dict_to_list(dict):
-    return dict["list"]
+def string_to_list(string):
+    return literal_eval(string)
 
 host = os.getenv("REDIS_HOST")
 port = os.getenv("REDIS_PORT")
