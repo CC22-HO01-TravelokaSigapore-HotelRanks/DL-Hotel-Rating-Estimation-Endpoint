@@ -1,0 +1,12 @@
+tensorflow
+pandas
+numpy
+SQLAlchemy
+mysqlclient
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+fastapi-redis-cache
+gdown
+haversine
