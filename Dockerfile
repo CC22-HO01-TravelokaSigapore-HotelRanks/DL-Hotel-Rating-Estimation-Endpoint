@@ -8,7 +8,7 @@ COPY . .
 RUN apt-get update -y
 
 # Install Container Dependencies
-RUN apt-get install unzip curl gpg lsb-core -y
+RUN apt-get install unzip curl gpg lsb-release -y
 
 # Install Redis
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
