@@ -4,15 +4,22 @@ import tensorflow as tf
 import haversine as hs
 import numpy as np
 
-def user_enough_review(minimum_reviews:int, user_id: int, df: pd.DataFrame) -> Union[pd.DataFrame, None]:
+from modules.database import db
+
+hotel_train_items = ["hotel_star", "price_per_night", "free_refund", 
+              "nearby_destination", "breakfast", "pool", "wifi", "parking", 
+              "smoking", "air_conditioner", "wheelchair_access", 
+              "average_bed_size", "staff_vaccinated", "child_area"]
+
+def user_enough_review(minimum_reviews:int, user_id: int) -> Union[pd.DataFrame, None]:
   """
   Get Users Reviews. If less than minimum_reviews returns 0. 
   If not will return the reviews dataframe contains user_id, hotel_id, rating
   """
-  df_temp = df[df["user_id"] == user_id]
-  if len(df_temp) < minimum_reviews:
+  df = db.query(f"SELECT hotel_id, user_id, rating FROM coba_review WHERE user_id={user_id}")
+  if len(df) < minimum_reviews:
     return None
-  return df_temp
+  return df
 
 def create_training_data(training_review, df_hotel, df_user):
   """

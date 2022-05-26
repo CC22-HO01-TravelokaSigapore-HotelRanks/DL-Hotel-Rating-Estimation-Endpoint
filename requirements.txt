@@ -10,3 +10,4 @@ pydantic
 fastapi-redis-cache
 gdown
 haversine
+APScheduler
