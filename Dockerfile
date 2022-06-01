@@ -27,8 +27,8 @@ RUN rm saved_model.zip
 
 # Prepare python runtime
 RUN pip install -r requirements.txt
-
 RUN apt-get autoremove -y
+ENV PYTHONUNBUFFERED=1
 
 # Preprare network
 ENV HOST 0.0.0.0

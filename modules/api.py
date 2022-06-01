@@ -43,7 +43,7 @@ async def for_you(request:Request, response:Response):
         df_review = user_enough_review(MINIMUM_REVIEWS, user_id)
         if df_review is None:
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return "Not enough review to train user models"
+            return {"message" : "Not enough review to train user models"}
         
         df_hotel = db.hotel()
         df_hotel_attr = df_hotel.filter(items=hotel_train_items).copy()
@@ -77,4 +77,4 @@ async def for_you(request:Request, response:Response):
     except:
         traceback.print_exc()
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return "Internal server error"
+        return {"message" : "Internal server error"}
